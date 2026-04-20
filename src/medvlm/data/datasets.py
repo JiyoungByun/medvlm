@@ -759,6 +759,16 @@ def train_val_test_split(
     if not 0.0 < val_fraction < 1.0:
         raise ValueError(f"val_fraction must be in (0, 1), got {val_fraction}")
 
+    if not isinstance(dataset, Dataset):
+        raise TypeError(
+            f"train_val_test_split expects a datasets.Dataset, got {type(dataset).__name__}. "
+            "For plain lists, shuffle and slice directly, e.g.:\n"
+            "    import random\n"
+            "    random.Random(seed).shuffle(examples)\n"
+            "    k = int(val_fraction * len(examples))\n"
+            "    val, test = examples[:k], examples[k:]"
+        )
+
     shuffled = dataset.shuffle(seed=seed)
     val_size = int(len(shuffled) * val_fraction)
 

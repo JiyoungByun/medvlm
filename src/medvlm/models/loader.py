@@ -134,14 +134,15 @@ class ModelLoader:
                 import timm
             except ImportError:
                 raise ImportError(
-                    "InternVL requires 'timm' package. "
-                    "Please run: pip install timm"
+                    "InternVL requires 'timm'. "
+                    "Install it with: pip install 'medvlm[internvl]' "
+                    "(or: pip install timm)"
                 )
 
     def _get_common_kwargs(self, bnb_config: Optional[BitsAndBytesConfig]) -> Dict:
         """Get common model loading kwargs."""
         kwargs = {
-            "torch_dtype": get_torch_dtype(self.config.torch_dtype),
+            "dtype": get_torch_dtype(self.config.torch_dtype),
             "device_map": self.config.device_map,
             "low_cpu_mem_usage": True,
         }

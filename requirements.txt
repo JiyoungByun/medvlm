@@ -1,5 +1,8 @@
-# Core ML — install torch first: pip install torch --index-url https://download.pytorch.org/whl/cu124
-torch>=2.6.0
+# Core ML — install torch first matching your CUDA driver:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+# The range below covers the wheels known to work; narrow it if your driver
+# is older (torch 2.11+ needs NVIDIA driver >=555).
+torch>=2.4,<2.12
 transformers>=4.45.0
 datasets>=2.19.0
 accelerate>=0.27.0
@@ -10,7 +13,7 @@ bitsandbytes>=0.43.0
 
 # Vision
 Pillow>=10.0.0
-timm>=0.9.0
+timm>=0.9.0  # only needed for InternVL models
 
 # Utilities
 numpy>=1.24.0

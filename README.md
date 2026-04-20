@@ -17,11 +17,27 @@
 
 ## Installation
 
+medvlm requires **Python >= 3.10**. If your system default is older, create a
+fresh virtualenv first:
+
 ```bash
-pip install -e .
+python3.10 -m venv .venv && source .venv/bin/activate
 ```
 
-**Requirements:** Python >= 3.10, PyTorch >= 2.6, CUDA GPU recommended.
+Then install PyTorch matching your CUDA driver — the PyPI default wheel
+(currently torch 2.11, needs NVIDIA driver >=555) won't work on older
+drivers, so pick an index URL that matches your CUDA toolkit:
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cu124
+pip install medvlm
+```
+
+InternVL models additionally need `timm`:
+
+```bash
+pip install 'medvlm[internvl]'
+```
 
 For GPU inference with Flash Attention (recommended):
 ```bash
