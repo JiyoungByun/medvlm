@@ -1000,12 +1000,10 @@ a dedicated virtualenv first:</p>
 </code></pre></div>
 <h3 id="pytorch-and-your-nvidia-driver">PyTorch and your NVIDIA driver</h3>
 <p><code>pip install medvlm</code> will pull the default PyPI PyTorch wheel, which
-currently tracks the newest CUDA build (torch 2.11 needs NVIDIA driver</p>
-<blockquote>
-<p>= 555). On older drivers this installs but fails at import with a CUDA
-error. To avoid that, install torch yourself first from the index URL
-matching your CUDA toolkit, then install medvlm:</p>
-</blockquote>
+currently tracks the newest CUDA build (torch 2.11 needs NVIDIA
+driver 555+). On older drivers this installs but fails at import with
+a CUDA error. To avoid that, install torch yourself first from the
+index URL matching your CUDA toolkit, then install medvlm:</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/cu124
 pip<span class="w"> </span>install<span class="w"> </span>medvlm
 </code></pre></div>
