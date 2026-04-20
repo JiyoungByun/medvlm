@@ -20,10 +20,10 @@ python3.10 -m venv .venv && source .venv/bin/activate
 ### PyTorch and your NVIDIA driver
 
 `pip install medvlm` will pull the default PyPI PyTorch wheel, which
-currently tracks the newest CUDA build (torch 2.11 needs NVIDIA driver
->= 555). On older drivers this installs but fails at import with a CUDA
-error. To avoid that, install torch yourself first from the index URL
-matching your CUDA toolkit, then install medvlm:
+currently tracks the newest CUDA build (torch 2.11 needs NVIDIA
+driver 555+). On older drivers this installs but fails at import with
+a CUDA error. To avoid that, install torch yourself first from the
+index URL matching your CUDA toolkit, then install medvlm:
 
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cu124
