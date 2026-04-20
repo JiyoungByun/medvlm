@@ -325,6 +325,67 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytorch-and-your-nvidia-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyTorch and your NVIDIA driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internvl-extras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InternVL extras
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flash-attention-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flash Attention (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -750,6 +811,67 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quickstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytorch-and-your-nvidia-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyTorch and your NVIDIA driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internvl-extras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InternVL extras
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flash-attention-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flash Attention (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -868,13 +990,36 @@
 
 <h1 id="getting-started">Getting Started</h1>
 <h2 id="installation">Installation</h2>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jiyoungbyun/medvlm.git
-<span class="nb">cd</span><span class="w"> </span>medvlm
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<h3 id="quickstart">Quickstart</h3>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>medvlm
 </code></pre></div>
-<p>Optional: install Flash Attention for faster inference:
+<h3 id="python-version">Python version</h3>
+<p>medvlm requires <strong>Python &gt;= 3.10</strong>. If your system default is older, create
+a dedicated virtualenv first:</p>
+<div class="highlight"><pre><span></span><code>python3.10<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</code></pre></div>
+<h3 id="pytorch-and-your-nvidia-driver">PyTorch and your NVIDIA driver</h3>
+<p><code>pip install medvlm</code> will pull the default PyPI PyTorch wheel, which
+currently tracks the newest CUDA build (torch 2.11 needs NVIDIA driver</p>
+<blockquote>
+<p>= 555). On older drivers this installs but fails at import with a CUDA
+error. To avoid that, install torch yourself first from the index URL
+matching your CUDA toolkit, then install medvlm:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/cu124
+pip<span class="w"> </span>install<span class="w"> </span>medvlm
+</code></pre></div>
+<p>medvlm is tested against <code>torch&gt;=2.4,&lt;2.12</code>; pick the newest wheel your
+driver supports within that range.</p>
+<h3 id="internvl-extras">InternVL extras</h3>
+<p>The InternVL loader depends on <code>timm</code>, which is not pulled in by the
+base install. If you plan to use <code>internvl3_*</code> models:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;medvlm[internvl]&#39;</span>
+</code></pre></div>
+<h3 id="flash-attention-optional">Flash Attention (optional)</h3>
+<p>For faster inference on CUDA GPUs:</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>flash-attn<span class="w"> </span>--no-build-isolation<span class="w"> </span>--no-deps
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="basic-usage">Basic Usage</h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">medvlm</span>
 
