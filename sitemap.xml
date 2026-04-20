@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/getting-started/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/api/calibration/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/api/confidence/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/api/data-models/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/examples/calibration/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/examples/hac/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+    <url>
+         <loc>https://jiyoungbyun.github.io/medvlm/examples/overconfidence/</loc>
+         <lastmod>2026-04-20</lastmod>
+    </url>
+</urlset>

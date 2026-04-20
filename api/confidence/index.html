@@ -1,0 +1,1054 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jiyoungbyun.github.io/medvlm/api/confidence/">
+      
+      
+        <link rel="prev" href="../../getting-started/">
+      
+      
+        <link rel="next" href="../calibration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Confidence Estimation - MedVLM</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#confidence-estimation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MedVLM" class="md-header__button md-logo" aria-label="MedVLM" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MedVLM
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Confidence Estimation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/jiyoungbyun/medvlm" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MedVLM" class="md-nav__button md-logo" aria-label="MedVLM" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MedVLM
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/jiyoungbyun/medvlm" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Confidence Estimation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Confidence Estimation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#medvlmcompute_confidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        medvlm.compute_confidence()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="medvlm.compute_confidence()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        examples argument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#samplingresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SamplingResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verbalizedresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VerbalizedResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medvlmcompute_hedge_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        medvlm.compute_hedge_scores()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbalized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbalized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calibration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/overconfidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overconfidence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/calibration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post-hoc Calibration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/hac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#medvlmcompute_confidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        medvlm.compute_confidence()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="medvlm.compute_confidence()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        examples argument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#samplingresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SamplingResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verbalizedresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VerbalizedResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medvlmcompute_hedge_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        medvlm.compute_hedge_scores()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbalized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbalized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="confidence-estimation">Confidence Estimation</h1>
+<h2 id="medvlmcompute_confidence"><code>medvlm.compute_confidence()</code></h2>
+<p>Unified entry point for computing confidence scores.</p>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">medvlm</span><span class="o">.</span><span class="n">compute_confidence</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;sampling&quot;</span><span class="p">,</span>        <span class="c1"># &quot;sampling&quot; or &quot;verbalized&quot;</span>
+    <span class="n">question_type</span><span class="o">=</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span>   <span class="c1"># &quot;closed&quot; or &quot;open&quot;</span>
+    <span class="c1"># Sampling-specific:</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">prompt_mode</span><span class="o">=</span><span class="s2">&quot;base&quot;</span><span class="p">,</span>       <span class="c1"># &quot;base&quot; or &quot;cot&quot;</span>
+    <span class="n">samples_per_batch</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="c1"># Verbalized-specific:</span>
+    <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;vanilla&quot;</span><span class="p">,</span>
+    <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="examples-argument"><code>examples</code> argument</h3>
+<p>Any iterable of dicts with keys <code>image</code>, <code>question</code>, and optionally <code>answer</code>.
+Two common shapes:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># (a) HuggingFace Dataset from medvlm.load_dataset — iterates as dicts</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="n">medvlm</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;vqa_rad&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">question_type</span><span class="o">=</span><span class="s2">&quot;closed&quot;</span><span class="p">)</span>
+
+<span class="c1"># (b) Plain list of dicts (e.g., a single image in memory)</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">pil_image</span><span class="p">,</span> <span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;is cardiomegaly present?&quot;</span><span class="p">,</span> <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;yes&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">pil_image</span><span class="p">,</span> <span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;is the scan normal?&quot;</span><span class="p">},</span>   <span class="c1"># no answer -&gt; is_correct=None</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="returns">Returns</h3>
+<ul>
+<li><strong>Sampling</strong>: List of <code>SamplingResult</code> objects</li>
+<li><strong>Verbalized</strong>: List of <code>VerbalizedResult</code> objects</li>
+</ul>
+<p>Both have <code>.confidence</code>, <code>.is_correct</code>, <code>.predicted</code>, <code>.question</code>, <code>.ground_truth</code>.
+When no <code>answer</code> is provided, <code>ground_truth</code> and <code>is_correct</code> are <code>None</code>.</p>
+<h2 id="samplingresult"><code>SamplingResult</code></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SamplingResult</span><span class="p">:</span>
+    <span class="n">question</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">predicted</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># majority answer</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span>        <span class="c1"># P(majority answer) among valid responses</span>
+    <span class="n">is_correct</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">answer_counts</span><span class="p">:</span> <span class="nb">dict</span>      <span class="c1"># {&quot;yes&quot;: 15, &quot;no&quot;: 5}</span>
+    <span class="n">unknown_count</span><span class="p">:</span> <span class="nb">int</span>       <span class="c1"># unparseable responses</span>
+    <span class="n">valid_response_rate</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">raw_responses</span><span class="p">:</span> <span class="nb">list</span>      <span class="c1"># all N raw responses</span>
+</code></pre></div>
+<h2 id="verbalizedresult"><code>VerbalizedResult</code></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VerbalizedResult</span><span class="p">:</span>
+    <span class="n">question</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">predicted</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span>        <span class="c1"># self-reported confidence (0-1)</span>
+    <span class="n">is_correct</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">parse_success</span><span class="p">:</span> <span class="nb">bool</span>      <span class="c1"># whether confidence was parseable</span>
+    <span class="n">raw_response</span><span class="p">:</span> <span class="nb">str</span>        <span class="c1"># full model response</span>
+    <span class="n">variant</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">raw_stage2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>   <span class="c1"># stage 2 response (two_stage variant only)</span>
+</code></pre></div>
+<h2 id="medvlmcompute_hedge_scores"><code>medvlm.compute_hedge_scores()</code></h2>
+<p>Compute SE / RadFlag / VASE hallucination scores for each question. Wraps
+<a href="https://github.com/SushantGautam/HEDGE">hedge-bench</a> to run the full HEDGE
+pipeline: one greedy answer plus <span class="arithmatex">\(N\)</span> high-temperature samples on the
+original image, plus one answer per distorted image (<span class="arithmatex">\(N\)</span> distortions),
+clustered (yes/no for closed, sentence-embedding for open) and scored.</p>
+<div class="highlight"><pre><span></span><code><span class="n">hedge</span> <span class="o">=</span> <span class="n">medvlm</span><span class="o">.</span><span class="n">compute_hedge_scores</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span>
+    <span class="n">question_type</span><span class="o">=</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span>    <span class="c1"># &quot;closed&quot; -&gt; yes/no, &quot;open&quot; -&gt; embedding clustering</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>              <span class="c1"># high-temp samples and distortions (each)</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>                 <span class="c1"># VASE contrastive weight</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>              <span class="c1"># distorted-image generation batch size</span>
+<span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">VASE</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">hedge</span><span class="p">])</span>   <span class="c1"># or r.SE, r.RadFlag</span>
+</code></pre></div>
+<p><code>examples</code> has the same contract as <code>compute_confidence</code> above.</p>
+<p>Returns a list of <code>HedgeResult</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HedgeResult</span><span class="p">:</span>
+    <span class="n">question</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">predicted</span><span class="p">:</span> <span class="nb">str</span>               <span class="c1"># parsed from the greedy answer</span>
+    <span class="n">is_correct</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">greedy_answer</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">SE</span><span class="p">:</span> <span class="nb">float</span>                    <span class="c1"># semantic entropy on clean samples</span>
+    <span class="n">RadFlag</span><span class="p">:</span> <span class="nb">float</span>               <span class="c1"># greedy-cluster agreement rate</span>
+    <span class="n">VASE</span><span class="p">:</span> <span class="nb">float</span>                  <span class="c1"># contrastive entropy (clean vs. distorted)</span>
+    <span class="n">original_high_temp</span><span class="p">:</span> <span class="nb">list</span>     <span class="c1"># N raw samples on original image</span>
+    <span class="n">original_logprobs</span><span class="p">:</span> <span class="nb">list</span>      <span class="c1"># mean log-likelihood per sample</span>
+    <span class="n">distorted_high_temp</span><span class="p">:</span> <span class="nb">list</span>    <span class="c1"># N samples, one per distorted image</span>
+    <span class="n">distorted_logprobs</span><span class="p">:</span> <span class="nb">list</span>
+</code></pre></div>
+<p>Use as <code>hallucination_scores</code> in HAC calibration:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cal</span> <span class="o">=</span> <span class="n">CalibrationPipeline</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;hac_platt&quot;</span><span class="p">)</span>
+<span class="n">cal</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">val_conf</span><span class="p">,</span> <span class="n">val_corr</span><span class="p">,</span> <span class="n">hallucination_scores</span><span class="o">=</span><span class="n">val_h</span><span class="p">)</span>
+</code></pre></div>
+<p>Raw samples and log-likelihoods are kept so you can re-cluster or try a
+different score (SE vs. RadFlag vs. VASE) later without re-generating. The
+CLI wrapper <code>experiments/03_generate_hedge.py</code> runs this across a whole dataset
+and saves the results to JSON.</p>
+<h2 id="prompt-templates">Prompt Templates</h2>
+<h3 id="sampling">Sampling</h3>
+<ul>
+<li><strong>base</strong>: "Provide only the answer, without any explanation. Format: Answer: [your answer]"</li>
+<li><strong>cot</strong>: "Think step by step. Then provide your answer. Format: Reasoning: [...] Answer: [...]"</li>
+</ul>
+<h3 id="verbalized">Verbalized</h3>
+<p>All variants include the question and image, then ask for confidence in different ways.
+See <code>medvlm.confidence.verbalized.VERBALIZED_PROMPTS</code> for the exact prompt text.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.sections"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
